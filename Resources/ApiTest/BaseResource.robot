@@ -37,6 +37,10 @@ Conferir Reason
     [Arguments]  ${REPONSE}  ${EXPECTED_REASON}
     Should Be Equal As Strings  ${REPONSE.reason}  ${EXPECTED_REASON}
 
+Conferir Body 
+    [Arguments]  ${REPONSE}  ${KEY}  ${EXPECTED_VALUE}
+    Dictionary Should Contain Item  ${REPONSE.json()}  ${KEY}  ${EXPECTED_VALUE}
+
 Conferir Response
     [Arguments]  ${RESPONSE}  ${EXPECTED_STATUS_CODE}=200  ${EXPECTED_REASON}=OK
     Conferir Status Code  ${RESPONSE}  ${EXPECTED_STATUS_CODE}

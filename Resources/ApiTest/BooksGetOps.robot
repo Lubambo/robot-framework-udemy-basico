@@ -10,15 +10,13 @@ Requisitar livro
     [Arguments]  ${ID}=1  ${BOOKS_LIST_SIZE}=0  ${EXPECTED_BOOK_CONTENT}=${NONE}
 
     IF  ${ID} == ${ALL}
-        ${URL}  Set Variable  ${ENDPOINT_GET_BOOKS}
+        ${ENDPOINT}  Set Variable  ${ENDPOINT_GET_BOOKS}
     ELSE
-        ${URL}  Set Variable  ${ENDPOINT_GET_BOOKS}/${ID}
+        ${ENDPOINT}  Set Variable  ${ENDPOINT_GET_BOOKS}/${ID}
     END
 
-    ${RESPONSE}  Realizar Request  ${GET_METHOD}  ${URL}
+    ${RESPONSE}  Realizar Request  ${GET_METHOD}  ${ENDPOINT}
     Conferir Response  ${RESPONSE}
-    Log  ${EXPECTED_BOOK_CONTENT}
-    Log  ${RESPONSE.text}
 
     IF  ${ID} == ${ALL}
         Length Should Be  ${RESPONSE.json()}  ${BOOKS_LIST_SIZE}

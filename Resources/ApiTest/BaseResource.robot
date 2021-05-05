@@ -1,6 +1,7 @@
 *** Settings ***
 Library  RequestsLibrary
 Library  Collections
+Library  String
 
 *** Variables ***
 ### Variáveis da API
@@ -20,15 +21,15 @@ Conectar à API
 
 ### AÇÕES
 Realizar Request
-    [Arguments]  ${REQUEST_METHOD}  ${URL}
+    [Arguments]  ${REQUEST_METHOD}  ${ENDPOINT}  &{JSON}=None
 
     ${RESPONSE}  Set Variable  ${EMPTY}
 
     IF  ${REQUEST_METHOD} == ${GET_METHOD}
-        ${RESPONSE}  Get On Session  fakeApi  ${URL}
+        ${RESPONSE}  Get On Session  fakeApi  ${ENDPOINT}
 
     ELSE IF   ${REQUEST_METHOD} == ${POST_METHOD}
-        ${RESPONSE}  POST On Session  fakeApi  ${URL}
+        ${RESPONSE}  POST On Session  fakeApi  ${ENDPOINT}  json=&{JSON}
     
     END
 
@@ -40,7 +41,9 @@ Conferir Status Code
 
 Conferir Reason
     [Arguments]  ${REPONSE}  ${EXPECTED_REASON}
-    Should Be Equal As Strings  ${REPONSE.reason}  ${EXPECTED_REASON}
+    ${RESULT} =  Convert To Upper Case  ${REPONSE.reason}
+    ${EXPECTED} =  Convert To Upper Case  ${EXPECTED_REASON}
+    Should Be Equal As Strings  ${RESULT}  ${EXPECTED}
 
 Conferir Body 
     [Arguments]  ${REPONSE}  ${KEY}  ${EXPECTED_VALUE}

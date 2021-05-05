@@ -3,7 +3,7 @@
 
 *** Settings ***
 Documentation  Documentação da API: https://fakerestapi.azurewebsites.net/index.html
-Resource  ../../Resources/ApiTest/Resource.robot
+Resource  ../../Resources/ApiTest/BooksGetOps.robot
 
 Suite Setup  Conectar à API
 #Suite Teardown  Desconectar da API

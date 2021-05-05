@@ -34,6 +34,9 @@ Requisitar livro
             # Conferir Body   ${RESPONSE}  pageCount  ${EXPECTED_BOOK_CONTENT.pageCount}
             # Conferir Body   ${RESPONSE}  excerpt  ${EXPECTED_BOOK_CONTENT.excerpt}
             # Conferir Body   ${RESPONSE}  publishDate  ${EXPECTED_BOOK_CONTENT.publishDate}
+            
+            ### Comparando os valores de uma vez
+            # Dictionaries Should Be Equal  ${RESPONSE}  ${EXPECTED_BOOK_CONTENT}
         END
     END
     

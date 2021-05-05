@@ -8,6 +8,7 @@ ${API_URL}  https://fakerestapi.azurewebsites.net/api/v1/
 
 ### Métodos de Request
 ${GET_METHOD}  "GET"
+${POST_METHOD}  "POST"
 
 ### Variáveis da suite
 ${ALL}  "todos"
@@ -19,12 +20,16 @@ Conectar à API
 
 ### AÇÕES
 Realizar Request
-    [Arguments]  ${REQUEST_METHOD}  ${ENDPOINT}
+    [Arguments]  ${REQUEST_METHOD}  ${URL}
 
     ${RESPONSE}  Set Variable  ${EMPTY}
 
     IF  ${REQUEST_METHOD} == ${GET_METHOD}
-        ${RESPONSE}  Get On Session  fakeApi  ${ENDPOINT}
+        ${RESPONSE}  Get On Session  fakeApi  ${URL}
+
+    ELSE IF   ${REQUEST_METHOD} == ${POST_METHOD}
+        ${RESPONSE}  POST On Session  fakeApi  ${URL}
+    
     END
 
     [Return]  ${RESPONSE}

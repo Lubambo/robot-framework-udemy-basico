@@ -20,7 +20,7 @@ Library  String
     [Return]  ${is_equal}
 
 Reunir diretorios
-    [Arguments]  ${path}=${CURDIR}
+    [Arguments]  ${path}
     
     ${test_dirs}  Create List  @{EMPTY}
 
@@ -40,29 +40,27 @@ Reunir diretorios
     [Return]  ${test_dirs}
 
 Reunir arquivos de teste
-    [Arguments]  ${path}=${CURDIR}
+    [Arguments]  ${path}
 
     ${test_cases}  Create List  @{EMPTY}
-    Log  Lista de casos de teste:\n${test_cases}
-
+    #Log  Lista de casos de teste:\n${test_cases}
     ${test_dirs}  Reunir diretorios  path=${path}
-    LOG  Diretórios:\n${test_dirs}
-
+    #LOG  Diretórios:\n${test_dirs}
     @{files}  List Files In Directory  path=${path}  pattern=*.robot
-    LOG  Arquivos Robot:\n@{files}
+    #LOG  Arquivos Robot:\n@{files}
 
     IF  ${test_dirs}
 
         # Listar diretorios do diretorio principal de testes
         FOR  ${directory}  IN  @{test_dirs}
-            #Log  Key -> ${key}\nValue ->  ${test_dirs["${key}"]}
-            
+
             # Reunir os arquivos do sub-diretorio
             ${sub_dir}  Reunir arquivos de teste  path=${path}${/}${directory}
             ${dir_elements}  Create Dictionary  ${directory}  ${sub_dir}
             Append To List  ${test_cases}  ${dir_elements}  
         
         END
+
     END
 
     IF  @{files}
@@ -75,5 +73,24 @@ Reunir arquivos de teste
 
     [Return]  ${test_cases}
 
+Gerar caminho de arquivo
+    [Arguments]  ${test_paths}  ${test_directory_path}
 
+    ${test_cases}  Create List  @{EMPTY}
 
+    IF  ${type} == 'dict'
+
+        FOR  ${path}  IN  ${test_paths}
+
+            ${type}  Evaluate  type(${file})
+
+            IF  ${type} == 'dict'
+
+                ${file_path}  ${test_directory_path}${/}${path}
+
+            END
+        
+        END
+    END
+
+    [Return]  ${test_cases}

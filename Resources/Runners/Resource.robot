@@ -8,8 +8,27 @@ Library  String
 *** Variables ***
 
 *** Keywords ***
+Verifica tipo da variável
+    [Arguments]  ${item}
+
+    # Verifica se é possível avaliar o tipo do item.
+    # Isso foi necessário pois o Robot FW acusa erro arquivo não importado como módulo,
+    # quando o item avaliado possui a string com extensão de arquivo (no caso, *.robot).
+    ${type_status}  Run Keyword And Return Status  Evaluate  type(${item}).__name__
+    LOG  Evaluation status: ${type_status}
+
+    # Caso o seja possível avaliar, é verificado o tipo do item.
+    # Se não, é forçada a avaliação do item como sendo uma string (str)
+    IF  ${type_status}
+        ${type}  Evaluate  type(${item}).__name__
+    ELSE
+        ${type}  Set Variable  str
+    END
+
+    [Return]  ${type}
+
 É um diretorio
-    [Arguments]  ${item}=''
+    [Arguments]  ${item}
 
     # Verifica exentsão de arquivo robot
     ${name}  Fetch From Left  string=${item}  marker=.robot
@@ -30,7 +49,6 @@ Reunir diretorios
         ${is_dir}  É um diretorio  ${item}
 
         IF  ${is_dir}
-            #Set To Dictionary  ${test_dirs}  ${item}  ${EMPTY}
             Append To List  ${test_dirs}  ${item}
         END
     END
@@ -57,7 +75,7 @@ Reunir arquivos de teste
             # Reunir os arquivos do sub-diretorio
             ${sub_dir}  Reunir arquivos de teste  path=${path}${/}${directory}
             ${dir_elements}  Create Dictionary  ${directory}  ${sub_dir}
-            Append To List  ${test_cases}  ${dir_elements}  
+            Append To List  ${test_cases}  ${dir_elements}
         
         END
 
@@ -66,6 +84,7 @@ Reunir arquivos de teste
     IF  @{files}
 
         FOR  ${file}  IN  @{files}
+            
             Append To List  ${test_cases}  ${file}
         END
 
@@ -74,23 +93,46 @@ Reunir arquivos de teste
     [Return]  ${test_cases}
 
 Gerar caminho de arquivo
-    [Arguments]  ${test_paths}  ${test_directory_path}
+    [Arguments]  @{test_cases}  ${test_directory_path}
 
-    ${test_cases}  Create List  @{EMPTY}
+    ${test_paths}  Create List  @{EMPTY}
 
-    IF  ${type} == 'dict'
+    FOR  ${test_case_item}  IN  @{test_cases}
 
-        FOR  ${path}  IN  ${test_paths}
+        ${type}  Verifica tipo da variável  ${test_case_item}
 
-            ${type}  Evaluate  type(${file})
+        IF  "${type}" == "list"
 
-            IF  ${type} == 'dict'
+            FOR  ${item}  IN  @{test_case_item}
 
-                ${file_path}  ${test_directory_path}${/}${path}
+                ${test_files}  Gerar caminho de arquivo  ${item}  test_directory_path=${test_directory_path}
+                FOR  ${test_file}  IN  @{test_files}
+
+                    Append To List  ${test_paths}  ${test_file}
+                
+                END
 
             END
+
+        ELSE IF  "${type}" == "dict"
+
+            FOR  ${key}  IN  @{test_case_item.keys()}
+
+                ${path}  Gerar caminho de arquivo  ${test_case_item["${key}"]}  test_directory_path=${test_directory_path}${/}${key}
+                
+                FOR  ${item}  IN  @{path}
+                    Append To List  ${test_paths}  ${item}
+                END
+
+            END
+            
+        ELSE
+
+            Append To List  ${test_paths}  ${test_directory_path}${/}${test_case_item}
         
         END
+
     END
 
-    [Return]  ${test_cases}
+    [Return]  ${test_paths}
+

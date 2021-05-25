@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation  Gerenciador de execução dos testes.
-Resource  ../Resources/Runners/Resource.robot
+Resource  ./Resources/Resource.robot
 
 *** Variables ***
 ${tests_dir}  .\\Tests

@@ -136,3 +136,51 @@ Gerar caminho de arquivo
 
     [Return]  ${test_paths}
 
+Relacionar arquivos de teste aos diretórios de resultado
+    [Arguments]  @{test_files_path}  ${tests_directory}  ${results_directory}  ${ignore_main_test_folder}=${FALSE}
+
+    ${results_directories}  Create List  @{EMPTY}
+
+    FOR  ${path}  IN  @{test_files_path}
+        ${result_path}  Fetch From Left  string=${path}  marker=.robot
+        
+        IF  ${ignore_main_test_folder}
+            ${main_test_folder}  Fetch From Left  string=${tests_directory}  marker=[a-z0-9]\\
+            ${result_path}  Fetch From Right  string=${result_path}  marker=${main_test_folder}
+        END
+
+        ${result_path}  Catenate  SEPARATOR=  ${results_directory}  ${result_path}
+        
+        ${pair}  Create List  ${result_path}  ${path}
+        Append To List  ${results_directories}  ${pair}
+    END
+
+    [Return]  ${results_directories}
+
+Executar arquivos de teste
+    [Arguments]  @{tests_and_results_path}
+
+    FOR  ${pair}  IN  @{tests_and_results_path}
+        ${result_directory}  Get From List  ${pair}  0
+        ${test_file}  Get From List  ${pair}  1
+        
+        ${exec_comand}  Catenate  robot  -d  ${result_directory}  ${test_file}
+        
+        ${process_result}  Run Process  ${exec_comand}  cwd=${EXECDIR}  shell=True
+        Log  ${process_result.stdout}
+    END
+
+Executar suites de teste
+    [Arguments]  ${tests_dir}  ${results_dir}  ${ignore_main_test_folder}=${FALSE}
+    @{test_cases}  Reunir arquivos de teste  path=${tests_dir}
+    #Log  Arquivos de teste:\n@{test_cases}
+
+    @{test_paths}  Gerar caminho de arquivo  @{test_cases}  test_directory_path=${tests_dir}
+    #Log  Caminhos dos arquivos de teste:\n@{test_paths}
+
+    @{results_directories}  Relacionar arquivos de teste aos diretórios de resultado
+    ...  @{test_paths}  tests_directory=${tests_dir}  results_directory=${results_dir}
+    ...  ignore_main_test_folder=${ignore_main_test_folder}
+    #Log  Caminhos dos diretórios de resultado:\n@{results_directories}
+
+    Executar arquivos de teste  @{results_directories}

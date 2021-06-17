@@ -25,3 +25,8 @@ CT 02: Pesquisar produto inexistente
     Clicar no botão pesquisar
     Conferir mensagem de erro "No results were found for your search "ItemNãoExistente""
 
+CT 03: Desafio
+    Acessar a página home do site
+    Digitar no campo de pesquisa o produto "ItemNãoExistente"
+    Clicar no botão pesquisar
+    Conferir mensagem de erro "No results were found for your search "ItemNãoExistente""

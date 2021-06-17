@@ -3,8 +3,8 @@
 
 *** Settings ***
 Documentation  Documentação da API: https://fakerestapi.azurewebsites.net/index.html
-Resource  ../../Resources/ApiTest/BooksGetOps.robot
-Resource  ../../Resources/ApiTest/BooksPostOps.robot
+Resource  ../../../Resources/ApiTest/FakeRestApi/BooksGetOps.robot
+Resource  ../../../Resources/ApiTest/FakeRestApi/BooksPostOps.robot
 
 Suite Setup  Conectar à API
 #Suite Teardown  Desconectar da API

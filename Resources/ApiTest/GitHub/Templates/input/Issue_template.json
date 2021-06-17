@@ -1,0 +1,8 @@
+{{
+    "title": "[Created by: {user_git}] {title}",
+    "body": "{description}",
+    "assignees": [
+        "{user_git}"
+    ],
+    "labels": {labels}
+}}

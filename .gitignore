@@ -1,3 +1,4 @@
 Results
 Private.robot
 Docker/reports/*.*
+!Docker/reports/.gitkeep

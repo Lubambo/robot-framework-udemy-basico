@@ -19,7 +19,7 @@ docker rmi <nome_da_sua_imagem>
 docker run -itd --name <nome_do_container> -v <diretório_local>:<diretório_no_container> <imagem_utilizada>
 ```
 * `-itd:` junção dos comandos `-it(--interactive)` `-d(--detach)`, esse comando leva o usuário direto para o container (`-it`) e desengata o usuário do container (`-d`), permitindo que o container rode mesmo sem uma aplicação executando
-(fonte: https://stackoverflow.com/questions/48368411/what-is-docker-run-it-flag)
+(fonte: [stackoverflow/what-is-docker-run-it-flag](https://stackoverflow.com/questions/48368411/what-is-docker-run-it-flag))
 * `--name:` informa um nome para o container
 * `-v:` cria espaço de armazenamento dentro do container, mas separado do sistema de arquivos do container (*[filesystem](https://medium.com/@BeNitinAgarwal/docker-containers-filesystem-demystified-b6ed8112a04a)*)
 * `${pwd}:` diretório atual de trabalho

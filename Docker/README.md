@@ -1,21 +1,21 @@
 ## Criar o build da imagem
-```html
+```bash
 docker build -t <nome_da_sua_imagem> ./diretorio/do/seu/dockerfile
 ```
 Comando usado no curso: `docker build -t run_robot ./Docker/docker_images`
 
 ## Consultar as imagens do seu Docker
-```sh
+```bash
 docker images
 ```
 
 ## Remover uma imagem criada
-```html
+```bash
 docker rmi <nome_da_sua_imagem>
 ```
 
 ## Iniciar um container
-```html
+```bash
 docker run -itd --name <nome_do_container> -v <diretório_local>:<diretório_no_container> <imagem_utilizada>
 ```
 * `-itd:` junção dos comandos `-it(--interactive)` `-d(--detach)`, esse comando leva o usuário direto para o container (`-it`) e desengata o usuário do container (`-d`), permitindo que o container rode mesmo sem uma aplicação executando
@@ -27,30 +27,30 @@ docker run -itd --name <nome_do_container> -v <diretório_local>:<diretório_no_
 Comando usado no curso: `docker run -itd --name execucao_robot -v ${pwd}/Docker/tests:/opt/robotframework/tests -v ${pwd}/Docker/reports:/opt/robotframework/reports run_robot`
 
 ## Inspecionar container
-```html
+```bash
 docker inspect <nome_do_container>
 ```
 
 ## Executar comando no container
 Este comando funciona apenas em um container em execução. Documentação para *[docker exec](https://docs.docker.com/engine/reference/commandline/exec/)*.
-```html
+```bash
 docker exec <opções> <nome_do_container> <comando>
 ```
 `opções`: tags utilizadas para refinar o comando no docker. Na documentação existe a *[lista de opções](https://docs.docker.com/engine/reference/commandline/exec/#options)*.
 Comando usado no curso: `docker exec -it execucao_robot python3 -m robot -d /opt/robotframework/reports /opt/robotframework/tests/test.robot`
 
 ## Parar o container
-```html
+```bash
 docker container stop <nome_do_container>
 ```
 
 ## Remover container
-```html
+```bash
 docker container rm <nome_do_container>
 ```
 
 ## Rodar os testes do Robot dentro do container
-```sh
+```bash
 robot -d /opt/robotframework/results /opt/robotframework/tests
 ```
 

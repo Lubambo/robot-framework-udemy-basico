@@ -1,0 +1,7 @@
+cryptography
+robotframework
+robotframework-faker
+robotframework-requests
+robotframework-seleniumlibrary
+robotframework-databaselibrary
+robotframework-sshlibrary

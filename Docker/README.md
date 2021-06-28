@@ -49,11 +49,6 @@ docker container stop <nome_do_container>
 docker container rm <nome_do_container>
 ```
 
-## Rodar os testes do Robot dentro do container
-```bash
-robot -d /opt/robotframework/results /opt/robotframework/tests
-```
-
 ---
 **Soluções para os erros encontrados no curso de robot:**
 | | Erro | Solução encontrada |

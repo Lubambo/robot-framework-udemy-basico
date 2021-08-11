@@ -38,7 +38,7 @@ Variáveis padrão para requisições:
 > **Objetivo:** verificar o retorno da requisição para obtenção de bairros de acordo com a `ID` da localidade informada.
 
 **Endpoint testado:**
-```
+```cmd
   ${base_url}/${v1_1}/localidades/${id}/bairros
 ```
 
@@ -237,6 +237,6 @@ Variáveis padrão para requisições:
 > **Objetivo:** verificar o retorno da requisição para obtenção de tipos de logradouro.
 
 **Endpoint testado:**
-```http
+```sh
   ${base_url}/logradouros/tipos
 ```

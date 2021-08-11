@@ -5,7 +5,7 @@ Os testes estão divididos em categorias de acordo com o resultado esperado dos 
 * [Bairro](#bairro)
 * [Cidade](#cidade)
 * [Estado](#estado)
-* [Grande Usuário](#grande-usuario)
+* [Grande Usuário](#grande-usuário)
 * [Localidade](#localidade)
 * [Logradouro](#logradouro)
 
